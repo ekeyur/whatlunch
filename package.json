@@ -1,0 +1,21 @@
+{
+  "name": "lunch",
+  "version": "1.0.0",
+  "description": "App to help user select on where to go for lunch",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "what",
+    "for",
+    "lunch"
+  ],
+  "author": "keyur",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.16.0",
+    "express": "^4.14.0",
+    "pg-promise": "^5.5.2"
+  }
+}
