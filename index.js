@@ -55,6 +55,14 @@ app.post('/postReview',function(req,res){
   let lastVisited = req.body.lastVisited;
   let stars = req.body.stars;
 
+  db.oneOrNone("select id from person_reviews_restaurant where userid = $1 and restaurant_id = $2",[userid,restaurantid])
+  .then(function(data){
+    console.log("Record Exist",data);
+  })
+  .catch(function(err){
+    console.log("id Error: ",err.message);
+  });
+  
   db.one("insert into person_reviews_restaurant (user_id,restaurant_id,stars,last_visited) values($1,$2,$3,$4)",[userid,restaurantid,stars,lastVisited])
   .then(function(data){
     console.log("Review Added");
