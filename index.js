@@ -16,6 +16,21 @@ const db = pgp(cn);
 app.use(express.static('static'));
 app.use(bodyParser.json());
 
+//Add a restaurant to the Database
+app.post('/postRestaurant',function(request,response){
+  let name = request.body.name;
+  let address = request.body.address;
+  db.one("insert into restaurant (name,address) values($1,$2)",[name,address])
+  .then(function(data){
+    console.log("Restaurant Added:",data);
+  })
+  .catch(function(err){
+    console.log("Error: ",err.message);
+  });
+});
+
+
+//Get list of all the restaurants
 app.get('/getRestaurantList',function(request,response){
   db.any('select * from restaurant')
   .then(function(data){
@@ -37,38 +52,18 @@ app.get('/helloWorld',function(req,res){
 app.post('/postReview',function(req,res){
   let userid = 1;
   let restaurantid = req.body.restaurant_id;
+  let lastVisited = req.body.lastVisited;
   let stars = req.body.stars;
 
-  console.log("fasdfasdfasd",restaurantid);
-  console.log("stars: ", stars);
-
-  db.one("insert into person_reviews_restaurant (user_id,restaurant_id,stars) values($1,$2,$3)",[userid,restaurantid,stars])
+  db.one("insert into person_reviews_restaurant (user_id,restaurant_id,stars,last_visited) values($1,$2,$3,$4)",[userid,restaurantid,stars,lastVisited])
   .then(function(data){
-    response.send(data);
+    console.log("Review Added");
   })
   .catch(function(err){
     console.log("Error: ",err.message);
   });
 });
 
-// Adds restaurant to the database
-app.post('/addRestaurant',function(request,response){
-  let name = "Naan Stop";
-  let address = "Buckhead";
-  db.one("insert into restaurant (name,address) values ($1,$2)",[name,address])
-  .then(function(data){
-    response.send(data);
-  })
-  .catch(function(err){
-    console.log("Error: ",err.message);
-  });
-});
-
-// Reviews a restaurant
-app.post('/reviewRestaurant',function(request,response){
-
-
-});
 
 
 app.listen('3001',function(){

@@ -1,10 +1,20 @@
 <div class="container">
-  <div class="form-inline center">
+  <div class="form-group">
+    <div class="row">
+      <div class="">
+        <select ng-model="selectedRestaurant" ng-options="restaurant.name for restaurant in restaurantlist">
+          <option value="">Choose Restaurant</option>
+        </select>
+      </div>
+
+    </div>
     <div class="">
-      <select ng-model="selectedRestaurant">
-        <option ng-repeat="restaurant in restaurantlist" value="{{restaurant.id}}">{{restaurant.name}}</option>
-      </select>
+      <input type="date" max="{{maxDate | date:'yyyy-MM-dd'}}" ng-model="lastVisited" placeholder="{{maxDate | date:'yyyy-MM-dd'}}" required />
+    </div>
+
+    <div class="">
       <jk-rating-stars max-rating="5" read-only="ctrl.readOnly" on-rating="addReview(rating)"></jk-rating-stars>
     </div>
+
   </div>
 </div>

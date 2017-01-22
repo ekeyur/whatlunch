@@ -1,1 +1,7 @@
+.center{
+  text-align: center;
+}
 
+.inlineblock{
+  display: inline-block;
+}

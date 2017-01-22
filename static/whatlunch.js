@@ -11,28 +11,34 @@ app.config(function($stateProvider,$urlRouterProvider){
   .state({
     name : 'addReview',
     url : '/addReview',
-    templateUrl : 'addreview.html',
-    controller : 'addreviewController'
+    templateUrl : 'addReview.html',
+    controller : 'addReviewController'
+  })
+
+  .state({
+    name : 'whatLunch',
+    url : '/',
+    templateUrl : 'whatLunch.html',
+    controller : 'whatLunchController'
   });
-  $urlRouterProvider.otherwise('/addReview');
+  $urlRouterProvider.otherwise('/');
 });
 
 //Factory
 app.factory('APIService',function($http){
 	var service = {};
 
-	service.getThings = function(pick){
-		console.log(pick);
-		var url = '/things/' + pick;
-		return $http({
-			method : 'GET',
-			url : url,
-			pick: pick,
-		});
-	};
-
   service.postReview = function(data){
     var url = '/postReview';
+    return $http({
+      method : 'POST',
+      url : url,
+      data : data,
+    });
+  };
+
+  service.postRestaurant = function(data){
+    var url = 'postRestaurant';
     return $http({
       method : 'POST',
       url : url,
@@ -52,16 +58,38 @@ app.factory('APIService',function($http){
 
 //Controllers
 
-app.controller('addreviewController', function($scope,APIService) {
+//Controller for adding a review
+app.controller('addReviewController', function($state,$scope,APIService) {
   APIService.getRestaurants().success(function(data){
+    //Gets the list of all the restaurants
     $scope.restaurantlist = data;
   });
+  //Display the initial date of today in the dialog
+  $scope.maxDate = new Date();
+  $scope.lastVisited = new Date();
 
   $scope.addReview = function(rating){
-    let data = {restaurant_id : $scope.selectedRestaurant, stars : rating};
+    let data = {restaurant_id : $scope.selectedRestaurant.id, stars : rating, lastVisited : $scope.lastVisited};
     APIService.postReview(data).success(function(data){
       console.log(data);
-  });
+    });
+    $state.go('whatLunch');
+  };
+});
+
+//Controller for suggesting lunch options
+app.controller('whatLunchController',function($scope,APIService){
+  $scope.whatLunch = "ChiPOTle";
+});
+
+
+// Controller for Adding Restaurant
+app.controller('addRestaurantController',function($state,$scope,APIService){
+  $scope.postData = function(){
+    let data = {name : $scope.name, address : $scope.address}
+    APIService.postRestaurant(data).success(function(data){
+    });
+
   };
 
 });
