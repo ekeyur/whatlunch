@@ -14,8 +14,10 @@
   "author": "keyur",
   "license": "ISC",
   "dependencies": {
+    "angular-jk-rating-stars": "^1.0.3",
     "body-parser": "^1.16.0",
     "express": "^4.14.0",
-    "pg-promise": "^5.5.2"
+    "pg-promise": "^5.5.2",
+    "rand-token": "^0.3.0"
   }
 }

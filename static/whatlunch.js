@@ -1,4 +1,4 @@
-var app = angular.module('whatlunch', ['ui.router']);
+var app = angular.module('whatlunch', ['ui.router','jkAngularRatingStars']);
 
 app.config(function($stateProvider,$urlRouterProvider){
   $stateProvider
@@ -7,8 +7,14 @@ app.config(function($stateProvider,$urlRouterProvider){
     url : '/addRestaurant',
     templateUrl : 'addRestaurant.html',
     controller : 'addRestaurantController'
+  })
+  .state({
+    name : 'addReview',
+    url : '/addReview',
+    templateUrl : 'addreview.html',
+    controller : 'addreviewController'
   });
-  $urlRouterProvider.otherwise('/addRestaurant');
+  $urlRouterProvider.otherwise('/addReview');
 });
 
 //Factory
@@ -24,11 +30,38 @@ app.factory('APIService',function($http){
 			pick: pick,
 		});
 	};
+
+  service.postReview = function(data){
+    var url = '/postReview';
+    return $http({
+      method : 'POST',
+      url : url,
+      data : data,
+    });
+  };
+
+  service.getRestaurants = function(){
+    let url = '/getRestaurantList';
+    return $http({
+      method : 'GET',
+      url : url,
+    });
+  };
 	return service;
 });
 
 //Controllers
 
-app.controller('fabularController', function($scope, $timeout,$stateParams, $rootScope, APIService) {
+app.controller('addreviewController', function($scope,APIService) {
+  APIService.getRestaurants().success(function(data){
+    $scope.restaurantlist = data;
+  });
+
+  $scope.addReview = function(rating){
+    let data = {restaurant_id : $scope.selectedRestaurant, stars : rating};
+    APIService.postReview(data).success(function(data){
+      console.log(data);
+  });
+  };
 
 });

@@ -1,9 +1,9 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var pgp = require('pg-promise')();
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const pgp = require('pg-promise')();
 
-var cn = {
+const cn = {
     host: 'localhost',
     port: 5432,
     database: 'whatlunch_db'
@@ -11,47 +11,47 @@ var cn = {
     // password: 'user-password'
 };
 
-var db = pgp(cn);
+const db = pgp(cn);
 
 app.use(express.static('static'));
 app.use(bodyParser.json());
 
-app.use(function authCheck(req,res,next){
-  let uname = req.query.uname;
-  let pass = req.query.pass;
-
-  db.oneOrNone("select id,password from person where name = '$1'",uname)
+app.get('/getRestaurantList',function(request,response){
+  db.any('select * from restaurant')
   .then(function(data){
+    response.send(data);
     console.log(data);
   })
   .catch(function(err){
     console.log("Error: ",err.message);
   });
-
-  // if(token in tokenobj){
-  //   console.log("Token Check Happened");
-  //   next();
-  // }
-  // console.log("login before you use this");
 });
 
+// Just to check postMan was working
+app.get('/helloWorld',function(req,res){
+  console.log("Hello World");
+  res.send('Hello World');
+});
 
-app.get('/getRestaurantList',function(request,response){
-  db.any('select * from restaurant')
+// Post a review for the restaurant
+app.post('/postReview',function(req,res){
+  let userid = 1;
+  let restaurantid = req.body.restaurant_id;
+  let stars = req.body.stars;
+
+  console.log("fasdfasdfasd",restaurantid);
+  console.log("stars: ", stars);
+
+  db.one("insert into person_reviews_restaurant (user_id,restaurant_id,stars) values($1,$2,$3)",[userid,restaurantid,stars])
   .then(function(data){
-    response.json(data['rows']);
+    response.send(data);
   })
   .catch(function(err){
     console.log("Error: ",err.message);
   });
 });
 
-app.get('/helloWorld',function(req,res){
-  console.log("Hello World");
-  res.send('Hello World');
-});
-
-
+// Adds restaurant to the database
 app.post('/addRestaurant',function(request,response){
   let name = "Naan Stop";
   let address = "Buckhead";
@@ -64,7 +64,9 @@ app.post('/addRestaurant',function(request,response){
   });
 });
 
+// Reviews a restaurant
 app.post('/reviewRestaurant',function(request,response){
+
 
 });
 

@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="form-inline center">
+    <div class="">
+      <select ng-model="selectedRestaurant">
+        <option ng-repeat="restaurant in restaurantlist" value="{{restaurant.id}}">{{restaurant.name}}</option>
+      </select>
+      <jk-rating-stars max-rating="5" read-only="ctrl.readOnly" on-rating="addReview(rating)"></jk-rating-stars>
+    </div>
+  </div>
+</div>
