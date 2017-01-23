@@ -14,6 +14,7 @@ create table person_reviews_restaurant (
   id serial primary key,
   user_id integer references person (id),
   restaurant_id integer references restaurant (id),
-  stars integer check (stars between 1 and 5)
+  stars integer check (stars between 1 and 5),
+  last_visited date	
 );
 
