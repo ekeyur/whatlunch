@@ -46,6 +46,14 @@ app.factory('APIService',function($http){
     });
   };
 
+  service.getWhatLunch = function(){
+    let url = '/getWhatLunch';
+    return $http({
+      method : 'GET',
+      url : url,
+    });
+  };
+
   service.getRestaurants = function(){
     let url = '/getRestaurantList';
     return $http({
@@ -66,7 +74,6 @@ app.controller('addReviewController', function($state,$scope,APIService) {
   });
   //Display the initial date of today in the dialog
   $scope.maxDate = new Date();
-  $scope.lastVisited = new Date();
 
   $scope.addReview = function(rating){
     let data = {restaurant_id : $scope.selectedRestaurant.id, stars : rating, lastVisited : $scope.lastVisited};

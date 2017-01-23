@@ -28,7 +28,16 @@ app.post('/postRestaurant',function(request,response){
     console.log("Error: ",err.message);
   });
 });
-
+// Get what lunch logic
+app.get('/getWhatLunch',function(request,response){
+  db.any('')
+  .then(function(data){
+    console.log(data);
+  })
+  .catch(function(err){
+    console.log("Error: ",err.message);
+  })
+});
 
 //Get list of all the restaurants
 app.get('/getRestaurantList',function(request,response){
@@ -54,25 +63,17 @@ app.post('/postReview',function(req,res){
   let restaurantid = req.body.restaurant_id;
   let lastVisited = req.body.lastVisited;
   let stars = req.body.stars;
+  var updateId;
 
-  db.oneOrNone("select id from person_reviews_restaurant where userid = $1 and restaurant_id = $2",[userid,restaurantid])
+  db.oneOrNone("select id from person_reviews_restaurant where user_id = $1 and restaurant_id = $2",[userid,restaurantid])
   .then(function(data){
-    console.log("Record Exist",data);
+    return db.one("update person_reviews_restaurant set stars = $1, last_visited = $2 where id = $3 returning id",[stars,lastVisited,data.id])
   })
   .catch(function(err){
-    console.log("id Error: ",err.message);
-  });
-  
-  db.one("insert into person_reviews_restaurant (user_id,restaurant_id,stars,last_visited) values($1,$2,$3,$4)",[userid,restaurantid,stars,lastVisited])
-  .then(function(data){
-    console.log("Review Added");
-  })
-  .catch(function(err){
-    console.log("Error: ",err.message);
+    db.one("insert into person_reviews_restaurant (user_id,restaurant_id,stars,last_visited) values($1,$2,$3,$4) returning id",[userid,restaurantid,stars,lastVisited])
+    console.log("Error", err.message);
   });
 });
-
-
 
 app.listen('3001',function(){
   console.log("Server is running");
