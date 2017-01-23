@@ -71,12 +71,14 @@ app.controller('addReviewController', function($state,$scope,APIService) {
   APIService.getRestaurants().success(function(data){
     //Gets the list of all the restaurants
     $scope.restaurantlist = data;
+    $scope.selectedRestaurant = data[1].id;
   });
   //Display the initial date of today in the dialog
   $scope.maxDate = new Date();
-
-  $scope.addReview = function(rating){
-    let data = {restaurant_id : $scope.selectedRestaurant.id, stars : rating, lastVisited : $scope.lastVisited};
+  $scope.addReview = function(){
+    let data = {restaurant_id : $scope.selectedRestaurant.id, stars : parseInt($scope.rating), lastVisited : $scope.lastVisited};
+    console.log($scope.rating);
+    console.log(typeof($scope.rating));
     APIService.postReview(data).success(function(data){
       console.log(data);
     });
