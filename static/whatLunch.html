@@ -1,1 +1,12 @@
-{{lunchReco}}
+<div class="container-fluid">
+  <div class="">
+    <ul class="nav nav-pills">
+      <li role="presentation"><a ui-sref="addReview">Add Review</a></li>
+      <li role="presentation"><a ui-sref="addRestaurant">Add Restaurant</a></li>
+      <li role="presentation"><a href="#">Login</a></li>
+    </ul>
+  </div>
+  <div>
+    Today's Lunch Choice : {{lunchReco.name}} located in {{lunchReco.address}}.
+  </div>
+</div>

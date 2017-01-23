@@ -1,4 +1,44 @@
+<form class="form-horizontal" ng-submit="postData()">
+<fieldset>
 
+<!-- Form Name -->
+<legend>Form Name</legend>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="textinput">Restaurant Name</label>
+  <div class="col-md-4">
+  <input  ng-model="name" name="textinput" type="text" placeholder="e.g. California Pizza Kitchen" class="form-control input-md" required="">
+
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="textinput">Address</label>
+  <div class="col-md-4">
+  <input  ng-model="address" name="textinput" type="text" placeholder="e.g. Buckhead" class="form-control input-md" required="">
+
+  </div>
+</div>
+
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="singlebutton"></label>
+  <div class="col-md-4">
+    <button type="submit" name="singlebutton" class="btn btn-primary">Add</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+
+
+
+
+
+
+<!--
   <div class="center">
     <div class="">
       <label for="">Restaurant Name</label>
@@ -13,4 +53,4 @@
     <div class="">
       <button ng-click="postData()">Add Restaurant</button>
     </div>
-  </div>
+  </div> -->

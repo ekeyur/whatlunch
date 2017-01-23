@@ -103,7 +103,7 @@ app.controller('addRestaurantController',function($state,$scope,APIService){
     let data = {name : $scope.name, address : $scope.address}
     APIService.postRestaurant(data).success(function(data){
     });
-
+    $state.go('whatLunch');
   };
 
 });
