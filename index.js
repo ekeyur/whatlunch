@@ -30,8 +30,9 @@ app.post('/postRestaurant',function(request,response){
 });
 // Get what lunch logic
 app.get('/getWhatLunch',function(request,response){
-  db.any('')
+  db.any("select restaurant.id,restaurant.name,restaurant.address from restaurant inner join (select restaurant.id from restaurant inner join person_reviews_restaurant on restaurant.id = person_reviews_restaurant.restaurant_id inner join person on person_reviews_restaurant.user_id = person.id where person_reviews_restaurant.last_visited < NOW() - INTERVAL '2 days' and person.id = $1 EXCEPT select restaurant_id from (select restaurant_id, avg(stars) from person_reviews_restaurant group by restaurant_id) as average where average.avg <=2 UNION select id from restaurant where id not in(select restaurant_id from person_reviews_restaurant)) as rid on restaurant.id = rid.id",1)
   .then(function(data){
+    response.send(data);
     console.log(data);
   })
   .catch(function(err){

@@ -86,7 +86,12 @@ app.controller('addReviewController', function($state,$scope,APIService) {
 
 //Controller for suggesting lunch options
 app.controller('whatLunchController',function($scope,APIService){
-  $scope.whatLunch = "ChiPOTle";
+  let whatArray = [];
+  APIService.getWhatLunch().success(function(data){
+    let rand = Math.floor(Math.random() * data.length);
+    $scope.lunchReco = data[rand];
+    console.log("Data Length: ",data.length)
+  });
 });
 
 
