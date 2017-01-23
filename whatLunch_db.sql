@@ -17,9 +17,3 @@ create table person_reviews_restaurant (
   stars integer check (stars between 1 and 5)
 );
 
-create table person_visits_restaurant (
-  id serial primary key,
-  user_id integer references person (id),
-  restaurant_id integer references restaurant (id),
-  datevisited date
-);
