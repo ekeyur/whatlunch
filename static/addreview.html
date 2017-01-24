@@ -1,61 +1,66 @@
-<form class="form-horizontal" ng-submit="addReview()">
-<fieldset>
+<div class="container">
+<div class="">
+  <form class="form-horizontal" ng-submit="addReview()">
+  <fieldset>
 
-<!-- Form Name -->
-<legend>Add Review</legend>
+  <!-- Form Name -->
+  <legend>Add Review</legend>
 
-<!-- Select Basic -->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="selectbasic">Select Restaurant</label>
-  <div class="col-md-4">
-    <select id="selectbasic" ng-model="selectedRestaurant" ng-options="restaurant.name for restaurant in restaurantlist" required></select>
+  <!-- Select Basic -->
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="selectbasic">Select Restaurant</label>
+    <div class="col-md-4">
+      <select id="selectbasic" ng-model="selectedRestaurant" ng-options="restaurant.name for restaurant in restaurantlist" required></select>
+    </div>
   </div>
-</div>
 
-<div class="form-group">
-  <label class="col-md-4 control-label" for="Stars">Last Visited</label>
-  <div class="col-md-4">
-    <input type="date" max="{{maxDate | date:'yyyy-MM-dd'}}" ng-model="lastVisited" required />
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="Stars">Last Visited</label>
+    <div class="col-md-4">
+      <input type="date" max="{{maxDate | date:'yyyy-MM-dd'}}" ng-model="lastVisited" required />
+    </div>
   </div>
-</div>
 
 
-<!-- Multiple Radios (inline) -->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="Stars">Stars</label>
-  <div class="col-md-4">
-    <label class="radio-inline" for="Stars-0">
-      <input type="radio" ng-model="rating" name="Stars" id="Stars-0" value="1" checked="checked">
-      1
-    </label>
-    <label class="radio-inline" for="Stars-1">
-      <input type="radio" ng-model="rating" name="Stars" id="Stars-1" value="2">
-      2
-    </label>
-    <label class="radio-inline" for="Stars-2">
-      <input type="radio" ng-model="rating" name="Stars" id="Stars-2" value="3">
-      3
-    </label>
-    <label class="radio-inline" for="Stars-3">
-      <input type="radio" ng-model="rating" name="Stars" id="Stars-3" value="4">
-      4
-    </label>
-    <label class="radio-inline" for="Stars-4">
-      <input type="radio" ng-model="rating" name="Stars" id="Stars-4" value="5">
-      5
-    </label>
+  <!-- Multiple Radios (inline) -->
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="Stars">Stars</label>
+    <div class="col-md-4">
+      <label class="radio-inline" for="Stars-0">
+        <input type="radio" ng-model="rating" name="Stars" id="Stars-0" value="1" checked="checked">
+        1
+      </label>
+      <label class="radio-inline" for="Stars-1">
+        <input type="radio" ng-model="rating" name="Stars" id="Stars-1" value="2">
+        2
+      </label>
+      <label class="radio-inline" for="Stars-2">
+        <input type="radio" ng-model="rating" name="Stars" id="Stars-2" value="3">
+        3
+      </label>
+      <label class="radio-inline" for="Stars-3">
+        <input type="radio" ng-model="rating" name="Stars" id="Stars-3" value="4">
+        4
+      </label>
+      <label class="radio-inline" for="Stars-4">
+        <input type="radio" ng-model="rating" name="Stars" id="Stars-4" value="5">
+        5
+      </label>
+    </div>
   </div>
-</div>
 
 
-<div class="form-group">
-  <label class="col-md-4 control-label" for="singlebutton"></label>
-  <div class="col-md-4">
-    <button type="submit" class="btn btn-primary">Submit</button>
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="singlebutton"></label>
+    <div class="col-md-4">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
   </div>
+  </fieldset>
+  </form>
+
 </div>
-</fieldset>
-</form>
+</div>
 
 
 

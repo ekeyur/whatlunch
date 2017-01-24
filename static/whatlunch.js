@@ -1,6 +1,8 @@
-var app = angular.module('whatlunch', ['ui.router','jkAngularRatingStars']);
+var app = angular.module('whatlunch', ['ngCookies','ui.router','jkAngularRatingStars']);
 
+// States
 app.config(function($stateProvider,$urlRouterProvider){
+
   $stateProvider
   .state({
     name : 'addRestaurant',
@@ -14,7 +16,18 @@ app.config(function($stateProvider,$urlRouterProvider){
     templateUrl : 'addReview.html',
     controller : 'addReviewController'
   })
-
+  .state({
+   name: 'signup',
+   url: '/signup',
+   templateUrl: 'signup.html',
+   controller: 'signupController'
+ })
+ .state({
+    name: 'login',
+    url: '/login',
+    templateUrl: 'login.html',
+    controller: 'loginController'
+  })
   .state({
     name : 'whatLunch',
     url : '/',
@@ -25,20 +38,62 @@ app.config(function($stateProvider,$urlRouterProvider){
 });
 
 //Factory
-app.factory('APIService',function($http){
-	var service = {};
+app.factory('APIService',function($http,$cookies,$rootScope){
+	let service = {};
+
+  $rootScope.cookieData = null;
+  $rootScope.cookieData = $cookies.getObject('cookieData');
+  console.log("Printing initial cookie", $rootScope.cookieData);
+
+  if ($rootScope.cookieData) {
+  $rootScope.auth = $rootScope.cookieData.token;
+  $rootScope.username = $rootScope.cookieData.username;
+  $rootScope.id = $rootScope.cookieData.username;
+
+  console.log("Auth", $rootScope.auth);
+  console.log("Username", $rootScope.username);
+  console.log("Id", $rootScope.id);
+
+  }
+
+  $rootScope.logout = function(){
+    $cookies.remove('cookieData');
+    $rootScope.cookieData = null;
+    $rootScope.id = null;
+    $rootScope.auth = null;
+    $rootScope.username = null;
+  };
+
+
 
   service.postReview = function(data){
-    var url = '/postReview';
+    let url = '/postReview';
     return $http({
       method : 'POST',
       url : url,
       data : data,
+      params: {userid: $rootScope.id, token: $rootScope.auth}
     });
   };
 
+  service.signup = function(userinfo) {
+   return $http ({
+     method: 'POST',
+     url: '/signup',
+     data: userinfo
+   });
+ };
+
+ service.login = function(userdata) {
+   return $http ({
+     method: 'POST',
+     url: '/login',
+     data: userdata
+   });
+ };
+
   service.postRestaurant = function(data){
-    var url = 'postRestaurant';
+    let url = 'postRestaurant';
     return $http({
       method : 'POST',
       url : url,
@@ -51,6 +106,7 @@ app.factory('APIService',function($http){
     return $http({
       method : 'GET',
       url : url,
+      params: {userid: $rootScope.id, token: $rootScope.auth}
     });
   };
 
@@ -66,6 +122,53 @@ app.factory('APIService',function($http){
 
 //Controllers
 
+//SignUpController
+app.controller('signupController', function($timeout, $scope, APIService, $state){
+  $scope.signUp = function() {
+    var userinfo = {
+      username: $scope.username,
+      password: $scope.password,
+      password2: $scope.password2
+    };
+    APIService.signup(userinfo)
+    .success(function(data) {
+      console.log("YAY", data);
+      $state.go('login');
+    })
+    .error(function(data){
+      console.log("failed");
+      $scope.failedPassMatch = true;
+      $timeout(function(){$scope.failedPassMatch = false;}, 2500);
+    });
+  };
+});
+
+//Login Controller
+app.controller('loginController', function($scope, APIService, $state, $cookies, $rootScope, $timeout) {
+  $scope.login = function(){
+    loginInfo = {
+      username: $scope.username,
+      password: $scope.password
+    };
+    APIService.login(loginInfo)
+    .error(function(data){
+      console.log("failed");
+      $scope.loginfailed = true;
+      $timeout(function(){$scope.loginfailed = false;}, 2500);
+    })
+    .success(function(data){
+      console.log(data);
+      $cookies.putObject('cookieData', data);
+      console.log("ADDED COOKIE");
+      $rootScope.username = data.uname;
+      $rootScope.id = data.id;
+      $rootScope.auth = data.token;
+      console.log('Hello', $rootScope.username);
+      $state.go('whatLunch');
+    });
+  };
+});
+
 //Controller for adding a review
 app.controller('addReviewController', function($state,$scope,APIService) {
   APIService.getRestaurants().success(function(data){
@@ -73,7 +176,7 @@ app.controller('addReviewController', function($state,$scope,APIService) {
     $scope.restaurantlist = data;
     $scope.selectedRestaurant = data[1].id;
   });
-  //Display the initial date of today in the dialog
+  //maxDate is needed becuase user should not be able to input date after today.How can he review a restaurant if he hasn't been there.
   $scope.maxDate = new Date();
   $scope.addReview = function(){
     let data = {restaurant_id : $scope.selectedRestaurant.id, stars : parseInt($scope.rating), lastVisited : $scope.lastVisited};
@@ -90,9 +193,9 @@ app.controller('addReviewController', function($state,$scope,APIService) {
 app.controller('whatLunchController',function($scope,APIService){
   let whatArray = [];
   APIService.getWhatLunch().success(function(data){
-    let rand = Math.floor(Math.random() * data.length);
-    $scope.lunchReco = data[rand];
-    console.log("Data Length: ",data.length)
+    let random = Math.floor(Math.random() * data.length);
+    $scope.lunchReco = data[random];
+    console.log("Data Recommentdation: ",$scope.lunchReco);
   });
 });
 

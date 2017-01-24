@@ -1,12 +1,20 @@
 <div class="container-fluid">
-  <div class="">
+  <!-- <div class="pull-right">
     <ul class="nav nav-pills">
+      <li ng-if="username" role="presentation"><a>Welcome {{username}}!</a></li>
       <li role="presentation"><a ui-sref="addReview">Add Review</a></li>
       <li role="presentation"><a ui-sref="addRestaurant">Add Restaurant</a></li>
-      <li role="presentation"><a href="#">Login</a></li>
+      <li role="presentation"><a ui-sref="signup">Sign Up</a></li>
     </ul>
-  </div>
-  <div>
-    Today's Lunch Choice : {{lunchReco.name}} located in {{lunchReco.address}}.
-  </div>
+  </div> -->
 </div>
+  <br>
+  <div class="container">
+    <div class="jumbotron text-center">
+      <h2 ng-show="!username">Please Login to get today's lunch recommendation</h2>
+      <h3 ng-show="!username">Default Username : jimmy</h3>
+      <h3 ng-show="!username"> Password : jimmy12</h3>
+      <h5 ng-show="username" style="color : maroon;">Today's Lunch Choice </h5><br>
+      <h3 ng-show="username" style="color : navy;">{{lunchReco.name}} in {{lunchReco.address}}</h3>
+    </div>
+  </div>

@@ -15,9 +15,12 @@
   "license": "ISC",
   "dependencies": {
     "angular-jk-rating-stars": "^1.0.3",
+    "bcrypt": "^1.0.2",
+    "bluebird": "^3.4.7",
     "body-parser": "^1.16.0",
     "express": "^4.14.0",
     "pg-promise": "^5.5.2",
-    "rand-token": "^0.3.0"
+    "rand-token": "^0.3.0",
+    "uuid": "^3.0.1"
   }
 }
