@@ -20,6 +20,7 @@ const cn = {
 };
 const options = {
     promiseLib: bluebird
+
 };
 const pgp = require('pg-promise')(options);
 const db = pgp(cn);
@@ -29,7 +30,7 @@ app.use(express.static('static'));
 app.use(bodyParser.json());
 
 //setting port
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 3001));
 
 //SignUp
 app.post('/signup', function(request, response){
@@ -144,14 +145,13 @@ app.post('/postRestaurant',function(request,response){
   });
 });
 
-// Every API below requires authorization
-app.use(auth);
+
 
 // Get what lunch query excludes any restaurant that has a avg review <= 2
 // excludes any restaurant that was visited yesterday
 // inludes all non reviewed restaurants
 app.get('/getWhatLunch',function(request,response){
-  let id = request.query.userid || 3;
+  let id = request.query.userid;
   console.log("Printing ID for whatLunch GET Request",id);
 
   //Sub query selects
@@ -204,9 +204,11 @@ app.get('/getWhatLunch',function(request,response){
   })
   .catch(function(err){
     console.log("Error: ",err.message);
-  })
+  });
 });
 
+// Every API below requires authorization
+app.use(auth);
 
 // Post a review for the restaurant. If the user has already reviewed the restaurant, then update the review.
 app.post('/postReview',function(req,res){
