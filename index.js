@@ -188,7 +188,11 @@ app.get('/getWhatLunch',function(request,response){
   //   as rid on restaurant.id = rid.id`,id)
 
   //Sub query selects
-  // Restaurant
+  // Select all Restaurants
+  // EXCEPT
+  // Restaurants visited yesterday by the user
+  // EXCEPT
+  // Restaurants where average stars is < 2
   db.any(`
     select
       restaurant.name,
