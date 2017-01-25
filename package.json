@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "App to help user select on where to go for lunch",
   "main": "index.js",
-
+  
+  "engines": {
+    "node":"v6.9.1",
+    "npm":"3.10.8"
+  },
   "scripts": {
     "test": "test",
     "start": "node index.js"
