@@ -4,12 +4,19 @@ const bluebird = require('bluebird');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const uuidV1 = require('uuid/v1');
+require('dotenv').config();
 const cn = {
-    host: 'localhost',
-    port: 5432,
-    database: 'whatlunch_db'
+    // host: 'localhost',
+    // port: 5432,
+    // database: 'whatlunch_db'
     // user: 'user-name',
     // password: 'user-password'
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS
+
 };
 const options = {
     promiseLib: bluebird
@@ -203,7 +210,7 @@ app.get('/getWhatLunch',function(request,response){
           user_id = $1 and last_visited > NOW() - INTERVAL '2 days'
 
       EXCEPT
-      
+
       select
         restaurant_id
       from
