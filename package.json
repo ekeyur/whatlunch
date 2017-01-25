@@ -4,7 +4,6 @@
   "description": "App to help user select on where to go for lunch",
   "main": "index.js",
   "scripts": {
-    "test": "test",
     "start": "node index.js"
   },
   "keywords": [
