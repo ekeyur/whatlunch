@@ -160,51 +160,100 @@ app.get('/getWhatLunch',function(request,response){
   // Restaurants visited yesterday by the user
   // EXCEPT
   // Restaurants where average stars is < 2
-  db.any(`
-    select
-      restaurant.name,
-      restaurant.id,
-      restaurant.address
-    from
-    restaurant inner join
-    (
+  if (id){
+    db.any(`
       select
-        restaurant.id
+        restaurant.name,
+        restaurant.id,
+        restaurant.address
       from
-        restaurant
+      restaurant inner join
+      (
+        select
+          restaurant.id
+        from
+          restaurant
 
-      EXCEPT
+        EXCEPT
 
+        select
+          restaurant_id
+        from
+          person_reviews_restaurant
+          where
+            user_id = $1 and last_visited > NOW() - INTERVAL '2 days'
+
+        EXCEPT
+
+        select
+          restaurant_id
+        from
+          (
+            select
+              restaurant_id,
+              avg(stars)
+            from
+              person_reviews_restaurant
+              group by restaurant_id
+          ) as average where average.avg <=2)
+            as rid
+            on restaurant.id = rid.id`,id
+      )
+    .then(function(data){
+      response.send(data);
+      console.log(data);
+    })
+    .catch(function(err){
+      console.log("Error: ",err.message);
+    });
+  } else {
+    db.any(`
       select
-        restaurant_id
+        restaurant.name,
+        restaurant.id,
+        restaurant.address
       from
-        person_reviews_restaurant
-        where
-          user_id = $1 and last_visited > NOW() - INTERVAL '2 days'
+      restaurant inner join
+      (
+        select
+          restaurant.id
+        from
+          restaurant
 
-      EXCEPT
+        EXCEPT
 
-      select
-        restaurant_id
-      from
-        (
-          select
-            restaurant_id,
-            avg(stars)
-          from
-            person_reviews_restaurant
-            group by restaurant_id
-        ) as average where average.avg <=2)
-          as rid
-          on restaurant.id = rid.id`,id
-    )
-  .then(function(data){
-    response.send(data);
-    console.log(data);
-  })
-  .catch(function(err){
-    console.log("Error: ",err.message);
-  });
+        select
+          restaurant_id
+        from
+          person_reviews_restaurant
+          where
+            user_id = $1 and last_visited > NOW() - INTERVAL '2 days'
+
+        EXCEPT
+
+        select
+          restaurant_id
+        from
+          (
+            select
+              restaurant_id,
+              avg(stars)
+            from
+              person_reviews_restaurant
+              group by restaurant_id
+          ) as average where average.avg <=2)
+            as rid
+            on restaurant.id = rid.id`,6
+      )
+    .then(function(data){
+      response.send(data);
+      console.log(data);
+    })
+    .catch(function(err){
+      console.log("Error: ",err.message);
+    });
+  }
+
 });
 
 // Every API below requires authorization
