@@ -1,5 +1,5 @@
 {
-  "name": "lunch",
+  "name": "whatlunch",
   "version": "1.0.0",
   "description": "App to help user select on where to go for lunch",
   "main": "index.js",
@@ -24,4 +24,7 @@
     "rand-token": "^0.3.0",
     "uuid": "^3.0.1"
   }
+}
+"scripts": {
+  "start": "node index.js"
 }
