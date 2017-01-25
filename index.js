@@ -151,7 +151,7 @@ app.use(auth);
 // excludes any restaurant that was visited yesterday
 // inludes all non reviewed restaurants
 app.get('/getWhatLunch',function(request,response){
-  let id = request.query.userid;
+  let id = request.query.userid || 3;
   console.log("Printing ID for whatLunch GET Request",id);
   // db.any(`
   //   select
