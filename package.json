@@ -4,7 +4,8 @@
   "description": "App to help user select on where to go for lunch",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "node index.js"
   },
   "keywords": [
     "what",
@@ -24,7 +25,4 @@
     "rand-token": "^0.3.0",
     "uuid": "^3.0.1"
   }
-}
-"scripts": {
-  "start": "node index.js"
 }
