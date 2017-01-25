@@ -174,7 +174,8 @@ app.controller('addReviewController', function($state,$scope,APIService) {
   APIService.getRestaurants().success(function(data){
     //Gets the list of all the restaurants
     $scope.restaurantlist = data;
-    $scope.selectedRestaurant = data[1].id;
+    // $scope.selectedRestaurant = data[1].id;
+
   });
   //maxDate is needed becuase user should not be able to input date after today.How can he review a restaurant if he hasn't been there.
   $scope.maxDate = new Date();
