@@ -161,6 +161,7 @@ app.get('/getWhatLunch',function(request,response){
   // EXCEPT
   // Restaurants where average stars is < 2
   if (id){
+    console.log("Id was supplied",id);
     db.any(`
       select
         restaurant.name,
@@ -207,6 +208,7 @@ app.get('/getWhatLunch',function(request,response){
       console.log("Error: ",err.message);
     });
   } else {
+    console.log("ID was not supplied");
     db.any(`
       select
         restaurant.name,
