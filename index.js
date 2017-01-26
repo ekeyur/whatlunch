@@ -132,7 +132,7 @@ app.post('/login', function(request, response) {
  });
  }
 
-//Add a restaurant to the Database
+//Add a restaurant to the Database. Do not need auth for this.
 app.post('/postRestaurant',function(request,response){
   let name = request.body.name;
   let address = request.body.address;
@@ -267,13 +267,18 @@ app.post('/postReview',function(req,res){
   let restaurantid = req.body.restaurant_id;
   let lastVisited = req.body.lastVisited;
   let stars = req.body.stars;
-
   db.oneOrNone("select id from person_reviews_restaurant where user_id = $1 and restaurant_id = $2",[userid,restaurantid])
   .then(function(data){
     return db.one("update person_reviews_restaurant set stars = $1, last_visited = $2 where id = $3 returning id",[stars,lastVisited,data.id])
   })
   .catch(function(err){
     db.one("insert into person_reviews_restaurant (user_id,restaurant_id,stars,last_visited) values($1,$2,$3,$4) returning id",[userid,restaurantid,stars,lastVisited])
+    .then(function(data){
+      console.log("Review Posted for",data.id);
+    })
+    .catch(function(data){
+
+    });
     console.log("Error", err.message);
   });
 });
