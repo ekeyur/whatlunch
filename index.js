@@ -245,7 +245,7 @@ app.get('/getWhatLunch',function(request,response){
               group by restaurant_id
           ) as average where average.avg <=2)
             as rid
-            on restaurant.id = rid.id`,6
+            on restaurant.id = rid.id`,5
       )
     .then(function(data){
       response.send(data);
