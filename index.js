@@ -113,6 +113,8 @@ app.post('/login', function(request, response) {
    //verify auth token
    let token = request.query.token;
    let id = request.query.userid;
+   console.log("USERID",id);
+   console.log("TOKEN",token);
    if (!token) {
      response.status(401);
      response.json({error: "You are not logged in"});
@@ -259,7 +261,7 @@ app.get('/getWhatLunch',function(request,response){
 });
 
 // Every API below requires authorization
-app.use(auth);
+// app.use(auth);
 
 // Post a review for the restaurant. If the user has already reviewed the restaurant, then update the review.
 app.post('/postReview',function(req,res){

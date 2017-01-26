@@ -181,8 +181,6 @@ app.controller('addReviewController', function($state,$scope,APIService) {
   $scope.maxDate = new Date();
   $scope.addReview = function(){
     let data = {restaurant_id : $scope.selectedRestaurant.id, stars : parseInt($scope.rating), lastVisited : $scope.lastVisited};
-    console.log($scope.rating);
-    console.log(typeof($scope.rating));
     APIService.postReview(data).success(function(data){
       console.log(data);
     });
