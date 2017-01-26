@@ -259,7 +259,7 @@ app.get('/getWhatLunch',function(request,response){
 });
 
 // Every API below requires authorization
-// app.use(auth);
+app.use(auth);
 
 // Post a review for the restaurant. If the user has already reviewed the restaurant, then update the review.
 app.post('/postReview',function(req,res){
