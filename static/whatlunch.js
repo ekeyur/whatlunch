@@ -68,6 +68,10 @@ app.factory('APIService',function($http,$cookies,$rootScope){
 
   service.postReview = function(data){
     let url = '/postReview';
+    console.log(data);
+    console.log("ID",$rootScope.id);
+    console.log("TOKE",$rootScope.auth);
+
     return $http({
       method : 'POST',
       url : url,
